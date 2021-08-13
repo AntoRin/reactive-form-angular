@@ -1,53 +1,69 @@
 <div>
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-
+  <div class="container">
+<h4>Registration details</h4>
   <label for="">First Name</label>
   <input type="text" formControlName="firstName" />
   <span *ngIf="!formGroup.get('firstName')?.valid && showErrors">
-    <p>First Name is required</p>
+    <div class="error">First Name is required</div>
   </span>
+  
   <label for="">Last Name</label>
   <input type="text" formControlName="lastName" />
   <span *ngIf="!formGroup.get('lastName')?.valid && showErrors">
-    <p>First Name is required</p>
+    <div class="error">Last Name is required</div>
   </span>
-
-  <div formGroupName="address">
-    <h2>Address</h2>  
+  
+  <label for="">Email</label>
+  <input type="text" formControlName="email" />
+  <span *ngIf="!formGroup.get('email')?.valid && showErrors">
+    <div class="error">Enter Valid Email</div>
+  </span>
+  
+  <label for="">Contact</label>
+  <input type="text" formControlName="contact" />
+  <span *ngIf="!formGroup.get('contact')?.valid && showErrors">
+    <div class="error">Enter Valid Contact</div>
+  </span>
+ 
+</div>
+  
+  <div formGroupName="address" class="container">
+    <h5>Address</h5>  
     <label for="street">Street: </label>
     <input id="street" type="text" formControlName="street">
     <span *ngIf="!formGroup.get('address.street')?.valid && showErrors">
-      <p>First Name is required</p>
+      <div class="error">Street is required</div>
     </span>
   
     <label for="city">City: </label>
     <input id="city" type="text" formControlName="city">
     <span *ngIf="!formGroup.get('address.city')?.valid && showErrors">
-      <p>First Name is required</p>
+      <div class="error">City is required</div>
     </span>
   
     <label for="state">State: </label>
     <input id="state" type="text" formControlName="state">
     <span *ngIf="!formGroup.get('address.state')?.valid && showErrors">
-      <p>First Name is required</p>
+      <div class="error">State is required</div>
     </span>
   
     <label for="zip">Zip Code: </label>
     <input id="zip" type="text" formControlName="zip">
     <span *ngIf="!formGroup.get('address.zip')?.valid && showErrors">
-      <p>First Name is required</p>
+      <div class="error">Zip Code should be correct</div>
     </span>
   </div>
-  <input type="submit" />
+  <input type="submit" class="addbtn"/>
 </form>
 
 <p-table [value]="users">
   <ng-template pTemplate="header">
       <tr>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Quantity</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Contact</th>
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-user>
