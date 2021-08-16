@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Users } from "./models/user.interface";
+import { NonWhiteSpaceValidator } from "./validators/nonwhitespace.validator";
 
 @Component({
    selector: "app-root",
@@ -10,6 +11,7 @@ import { Users } from "./models/user.interface";
 export class AppComponent implements OnInit {
    public emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
    public mobPattern: string = "^[0-9]{10}$";
+   public pinPattern: string = "^[0-9]{6}$";
    public specialCharPattern: RegExp = new RegExp(/^[^*|\":<>[\]{}`\\()';@&$]+$/);
    public formGroup: FormGroup = new FormGroup({});
    public users: Users[] = [];
@@ -19,15 +21,39 @@ export class AppComponent implements OnInit {
 
    ngOnInit(): void {
       this.formGroup = this.fb.group({
-         firstName: ["", [Validators.required, Validators.maxLength(50), Validators.pattern(this.specialCharPattern)]],
-         lastName: ["", [Validators.required, Validators.pattern(this.specialCharPattern)]],
-         email: ["", [Validators.required, Validators.pattern(this.emailPattern)]],
-         contact: ["", [Validators.required, Validators.pattern(this.mobPattern), Validators.pattern(this.specialCharPattern)]],
+         firstName: [
+            "",
+            [
+               Validators.required,
+               Validators.maxLength(50),
+               Validators.pattern(this.specialCharPattern),
+               NonWhiteSpaceValidator.cannotContainSpace,
+            ],
+         ],
+         lastName: ["", [Validators.required, Validators.pattern(this.specialCharPattern), NonWhiteSpaceValidator.cannotContainSpace]],
+         email: ["", [Validators.required, Validators.pattern(this.emailPattern), NonWhiteSpaceValidator.cannotContainSpace]],
+         contact: [
+            "",
+            [
+               Validators.required,
+               Validators.pattern(this.mobPattern),
+               Validators.pattern(this.specialCharPattern),
+               NonWhiteSpaceValidator.cannotContainSpace,
+            ],
+         ],
          address: this.fb.group({
             street: ["", [Validators.required, Validators.pattern(this.specialCharPattern)]],
             city: ["", [Validators.required, Validators.pattern(this.specialCharPattern)]],
             state: ["", [Validators.required, Validators.pattern(this.specialCharPattern)]],
-            zip: ["", [Validators.required, Validators.pattern(this.specialCharPattern)]],
+            zip: [
+               "",
+               [
+                  Validators.required,
+                  Validators.pattern(this.specialCharPattern),
+                  Validators.pattern(this.pinPattern),
+                  NonWhiteSpaceValidator.cannotContainSpace,
+               ],
+            ],
          }),
       });
    }
